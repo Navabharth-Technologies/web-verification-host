@@ -1112,17 +1112,19 @@ export default function DashboardScreen() {
                         if (selectedRegionTab === "state") {
                           items = [
                             "All India",
-                            ...Object.keys(dynamicLocationData).sort(),
+                            ...Object.keys(dynamicLocationData || {}).sort(),
                           ];
                         } else if (selectedRegionTab === "district") {
                           if (selectedRegion.state === "All India") {
                             // Collect all districts from all states
                             const allDistricts = new Set();
-                            Object.values(dynamicLocationData).forEach(
+                            Object.values(dynamicLocationData || {}).forEach(
                               (stateObj) => {
-                                Object.keys(stateObj).forEach((d) =>
-                                  allDistricts.add(d),
-                                );
+                                if (stateObj && typeof stateObj === 'object') {
+                                  Object.keys(stateObj).forEach((d) =>
+                                    allDistricts.add(d),
+                                  );
+                                }
                               },
                             );
                             items = [
@@ -1135,7 +1137,7 @@ export default function DashboardScreen() {
                               {};
                             items = [
                               "All Districts",
-                              ...Object.keys(stateData).sort(),
+                              ...Object.keys(stateData || {}).sort(),
                             ];
                           }
                         } else {
@@ -1143,20 +1145,26 @@ export default function DashboardScreen() {
                             // Collect all towns from currently available districts
                             const allTowns = new Set();
                             if (selectedRegion.state === "All India") {
-                              Object.values(dynamicLocationData).forEach(
+                              Object.values(dynamicLocationData || {}).forEach(
                                 (stateObj) => {
-                                  Object.values(stateObj).forEach((townArr) => {
-                                    townArr.forEach((t) => allTowns.add(t));
-                                  });
+                                  if (stateObj && typeof stateObj === 'object') {
+                                    Object.values(stateObj).forEach((townArr) => {
+                                      if (Array.isArray(townArr)) {
+                                        townArr.forEach((t) => allTowns.add(t));
+                                      }
+                                    });
+                                  }
                                 },
                               );
                             } else {
                               const stateData =
-                                dynamicLocationData[
+                                (dynamicLocationData || {})[
                                 selectedRegion.state
                                 ] || {};
                               Object.values(stateData).forEach((townArr) => {
-                                townArr.forEach((t) => allTowns.add(t));
+                                if (Array.isArray(townArr)) {
+                                  townArr.forEach((t) => allTowns.add(t));
+                                }
                               });
                             }
                             items = [
@@ -1168,9 +1176,9 @@ export default function DashboardScreen() {
                             let districtData = [];
                             if (selectedRegion.state === "All India") {
                               for (const stateObj of Object.values(
-                                dynamicLocationData,
+                                dynamicLocationData || {},
                               )) {
-                                if (stateObj[selectedRegion.district]) {
+                                if (stateObj && stateObj[selectedRegion.district]) {
                                   districtData =
                                     stateObj[selectedRegion.district];
                                   break;
@@ -1178,11 +1186,11 @@ export default function DashboardScreen() {
                               }
                             } else {
                               districtData =
-                                dynamicLocationData[
+                                (dynamicLocationData || {})[
                                 selectedRegion.state
                                 ]?.[selectedRegion.district] || [];
                             }
-                            items = ["All Towns", ...districtData.sort()];
+                            items = ["All Towns", ...(Array.isArray(districtData) ? districtData.sort() : [])];
                           }
                         }
 

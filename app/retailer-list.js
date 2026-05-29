@@ -371,7 +371,7 @@ export default function RetailerListScreen() {
                 <Text style={styles.title}>Retailer Details</Text>
                 <TouchableOpacity
                   onPress={() => loadRetailers()}
-                  style={{ flexDirection: "row", alignItems: "center", gap: 6, padding: 8, borderRadius: 8, backgroundColor: "rgba(168,85,247,0.15)", borderWidth: 1, borderColor: "rgba(168,85,247,0.4)" }}
+                  style={{ flexDirection: "row", alignItems: "center", gap: 6, padding: 8, borderRadius: 8, backgroundColor: "rgba(168,85,247,0.15)", borderWidth: 1, borderColor: "rgba(168,85,247,0.4)", marginLeft: 12 }}
                 >
                   <Ionicons name="refresh-outline" size={16} color="#A855F7" />
                   <Text style={{ color: "#A855F7", fontSize: 13, fontWeight: "600" }}>Refresh</Text>
@@ -687,7 +687,7 @@ export default function RetailerListScreen() {
                         nestedScrollEnabled={true}
                         keyboardShouldPersistTaps="handled"
                       >
-                        {Object.keys(dynamicLocationData)
+                        {Object.keys(dynamicLocationData || {})
                           .filter((state) =>
                             state
                               .toLowerCase()
@@ -711,7 +711,7 @@ export default function RetailerListScreen() {
                               </Text>
                             </TouchableOpacity>
                           ))}
-                        {Object.keys(dynamicLocationData).filter((state) =>
+                        {Object.keys(dynamicLocationData || {}).filter((state) =>
                           state
                             .toLowerCase()
                             .includes(dropdownSearch.toLowerCase()),
@@ -819,7 +819,7 @@ export default function RetailerListScreen() {
                             keyboardShouldPersistTaps="handled"
                           >
                             {Object.keys(
-                              dynamicLocationData[selectedState] || {},
+                              (dynamicLocationData || {})[selectedState] || {},
                             )
                               .filter((district) =>
                                 district
@@ -844,7 +844,7 @@ export default function RetailerListScreen() {
                                 </TouchableOpacity>
                               ))}
                             {Object.keys(
-                              dynamicLocationData[selectedState] || {},
+                              (dynamicLocationData || {})[selectedState] || {},
                             ).filter((d) =>
                               d
                                 .toLowerCase()
@@ -978,7 +978,7 @@ export default function RetailerListScreen() {
                                 </TouchableOpacity>
                               ))}
                             {(
-                              dynamicLocationData[selectedState]?.[
+                              (dynamicLocationData || {})[selectedState]?.[
                                 selectedDistrict
                               ] || []
                             ).filter((t) =>

@@ -8,8 +8,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "predeploy": "npm run build && powershell -ExecutionPolicy Bypass -File ../inject-icons.ps1",
+    "deploy": "gh-pages -t -d dist",
     "build": "expo export --platform web"
   },
   "dependencies": {
