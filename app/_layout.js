@@ -74,23 +74,31 @@ export default function Layout() {
             /* Fallback font-faces to bridge React Native Web and CDNs */
             @font-face {
               font-family: 'MaterialIcons';
-              src: url('https://fonts.gstatic.com/s/materialicons/v142/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2') format('woff2');
+              src: url('https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/MaterialIcons.ttf') format('truetype');
+            }
+            @font-face {
+              font-family: 'Material Icons';
+              src: url('https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/MaterialIcons.ttf') format('truetype');
             }
             @font-face {
               font-family: 'Ionicons';
-              src: url('https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/fonts/ionicons.ttf') format('truetype');
+              src: url('https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/Ionicons.ttf') format('truetype');
             }
             @font-face {
               font-family: 'ionicons';
-              src: url('https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/fonts/ionicons.ttf') format('truetype');
+              src: url('https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/Ionicons.ttf') format('truetype');
             }
             @font-face {
               font-family: 'Material Community Icons';
-              src: url('https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/fonts/materialdesignicons-webfont.woff2?v=7.4.47') format('woff2');
+              src: url('https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf') format('truetype');
+            }
+            @font-face {
+              font-family: 'MaterialCommunityIcons';
+              src: url('https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf') format('truetype');
             }
             @font-face {
               font-family: 'FontAwesome';
-              src: url('https://use.fontawesome.com/releases/v5.15.4/webfonts/fa-solid-900.woff2') format('woff2');
+              src: url('https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/FontAwesome.ttf') format('truetype');
             }
             
             input:-webkit-autofill,
