@@ -26,7 +26,22 @@ export default function Layout() {
         // Explicitly load fonts used in the app to prevent late-loading timeouts
         // On Web, we prioritize CDNs/CSS over local .ttf files to avoid sub-path 404s
         const fontTasks = [];
-        if (Platform.OS !== "web") {
+        if (Platform.OS === "web") {
+          fontTasks.push(
+            Font.loadAsync({
+              "MaterialIcons": "https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+              "Material Icons": "https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+              "Ionicons": "https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/Ionicons.ttf",
+              "ionicons": "https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/Ionicons.ttf",
+              "MaterialCommunityIcons": "https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+              "Material Community Icons": "https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+              "FontAwesome": "https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/FontAwesome.ttf",
+              "FontAwesome5Free-Solid": "https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+              "FontAwesome5Free-Regular": "https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+              "FontAwesome5Brands-Regular": "https://cdn.jsdelivr.net/npm/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"
+            })
+          );
+        } else {
           fontTasks.push(
             Font.loadAsync(Ionicons.font),
             Font.loadAsync(MaterialCommunityIcons.font),
