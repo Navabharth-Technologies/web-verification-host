@@ -21,45 +21,6 @@ const logoImage = require("../assets/logo.png");
 
 export default function StaffApprovalDashboard() {
   const router = useRouter();
-  const { approvedId, password } = useLocalSearchParams();
-
-  // State for local storage params
-  const [recentApprovals, setRecentApprovals] = useState({});
-
-  useEffect(() => {
-    // Load persistent vault from localStorage
-    if (typeof window !== "undefined") {
-      const loadVault = () => {
-        const storedVault = window.localStorage.getItem("staff_vault");
-        if (storedVault) {
-          try {
-            const parsedVault = JSON.parse(storedVault);
-            setRecentApprovals(parsedVault);
-          } catch (e) {
-            console.error("Error parsing staff_vault:", e);
-          }
-        }
-      };
-
-      loadVault();
-
-      // Check if there are temporary navigation params to add to vault
-      const tempId = window.localStorage.getItem("temp_approved_id");
-      const tempPass = window.localStorage.getItem("temp_password");
-
-      if (tempId && tempPass) {
-        const existingVault = window.localStorage.getItem("staff_vault");
-        const vault = existingVault ? JSON.parse(existingVault) : {};
-        vault[tempId] = tempPass;
-        window.localStorage.setItem("staff_vault", JSON.stringify(vault));
-        setRecentApprovals(vault);
-
-        // Keep these for one cycle or clear them
-        window.localStorage.removeItem("temp_approved_id");
-        window.localStorage.removeItem("temp_password");
-      }
-    }
-  }, [approvedId, password]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [staff, setStaff] = useState([]);
@@ -302,8 +263,6 @@ export default function StaffApprovalDashboard() {
                   })
                   .map((member) => {
                     const styles_status = getStatusStyles(member.status);
-                    const sessionPassword = recentApprovals[member.id];
-                    const isRecentlyApproved = sessionPassword !== undefined;
 
                     return (
                       <View key={member.id} style={styles.modernCard}>
@@ -366,23 +325,6 @@ export default function StaffApprovalDashboard() {
                               </Text>
                             </View>
 
-                            {isRecentlyApproved && (
-                              <View style={styles.infoRow}>
-                                <Ionicons
-                                  name="key-outline"
-                                  size={16}
-                                  color="#4ade80"
-                                />
-                                <Text
-                                  style={[
-                                    styles.infoValue,
-                                    { color: "#4ade80", fontWeight: "bold" },
-                                  ]}
-                                >
-                                  Password: {sessionPassword}
-                                </Text>
-                              </View>
-                            )}
                           </View>
                         </TouchableOpacity>
                       </View>

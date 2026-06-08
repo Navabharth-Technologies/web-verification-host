@@ -4,6 +4,8 @@
 node_modules/
 !dist/assets/node_modules/
 !dist/assets/node_modules/**
+!assets/node_modules/
+!assets/node_modules/**
 
 # Expo
 .expo/

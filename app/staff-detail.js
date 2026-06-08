@@ -25,7 +25,6 @@ export default function StaffDetailScreen() {
   const [loading, setLoading] = useState(true);
   const [loadingAction, setLoadingAction] = useState(null);
   const [error, setError] = useState(null);
-  const [generatedPassword, setGeneratedPassword] = useState(null);
   const [showRejectInput, setShowRejectInput] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
 
@@ -56,32 +55,7 @@ export default function StaffDetailScreen() {
       setLoadingAction("approve");
       const response = await apiService.approveUser(id);
       if (response.success) {
-        // Redirect to list with password if available
-        if (response.password) {
-          // Direct window.localStorage usage for web
-          if (typeof window !== "undefined") {
-            try {
-              // Get existing vault or create new
-              const existingVault = window.localStorage.getItem("staff_vault");
-              const vault = existingVault ? JSON.parse(existingVault) : {};
-
-              // Add/Update entry
-              vault[String(id)] = response.password;
-
-              // Save back to localStorage
-              window.localStorage.setItem("staff_vault", JSON.stringify(vault));
-
-              // Compatibility with existing logic (can be removed later)
-              window.localStorage.setItem("temp_approved_id", String(id));
-              window.localStorage.setItem("temp_password", response.password);
-            } catch (e) {
-              console.error("LocalStorage error:", e);
-            }
-          }
-          router.replace("/staff-approval");
-        } else {
-          router.replace("/staff-approval");
-        }
+        router.replace("/staff-approval");
       }
     } catch (err) {
       // No alert here, as per instruction
@@ -285,19 +259,7 @@ export default function StaffDetailScreen() {
             </View>
           </View>
 
-          {/* Generated Credentials Section (Bottom Right) */}
-          {generatedPassword && (
-            <View style={styles.credentialsContainer}>
-              <View style={styles.credentialRow}>
-                <Text style={styles.credentialLabel}>Email:</Text>
-                <Text style={styles.credentialValue}>{userData.Email}</Text>
-              </View>
-              <View style={styles.credentialRow}>
-                <Text style={styles.credentialLabel}>Password:</Text>
-                <Text style={styles.credentialValue}>{generatedPassword}</Text>
-              </View>
-            </View>
-          )}
+
 
           {/* Reject Input Section */}
           {showRejectInput && (
@@ -344,15 +306,13 @@ export default function StaffDetailScreen() {
                 styles.actionButton,
                 styles.approveButton,
                 (loadingAction !== null ||
-                  userData.Status === "Approved" ||
-                  !!generatedPassword) &&
+                  userData.Status === "Approved") &&
                   styles.disabledButton,
               ]}
               onPress={handleApprove}
               disabled={
                 loadingAction !== null ||
-                userData.Status === "Approved" ||
-                !!generatedPassword
+                userData.Status === "Approved"
               }
             >
               {loadingAction === "approve" ? (
